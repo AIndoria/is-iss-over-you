@@ -26,6 +26,7 @@ function getISSLocation(){
     let ISSData=JSON.parse(request.responseText);
     console.log(ISSData);
     compareLocation(ISSData);
+    displayResults();
   }
   request.send();
 }
@@ -60,7 +61,18 @@ function compareLocation(iss_location){
 }
 
 function displayResults(){
- 
+  console.log("distance is "+distance);
+  if(distance!=0 && distance<1360){
+    document.getElementById("answer-primary").innerHTML="Yes";
+  }
+  else if(distance!=0 && distance>1360 && distance<2230){
+    document.getElementById("answer-primary").innerHTML="Maybe";
+    document.getElementById("answer-explanation").innerHTML="If you can see it, you'll find it towards the horizon, very low in the sky. Most likely you won't see it because of mountains or other obstructions in the way."
+  }
+  else{
+    document.getElementById("answer-primary").innerHTML="No";
+    document.getElementById("answer-explanation").innerHTML="The ISS is too far away from you. It is currently "+Math.round(distance)+" kilometers away. It needs to be at least 2300km (ideally ~1360km) for it to visible";
+  }
 }
 
 //TODO
