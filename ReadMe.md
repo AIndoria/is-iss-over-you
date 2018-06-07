@@ -8,7 +8,7 @@ Ideally, the ISS is set to visible to your location if
 
 * The weather is clear.
 * ISS is above horizon @ ~10% accounting for mountains, trees, and/or other objects.
-* "did-the-chinese-blow-it-up" is set to 0.
+* "did_the_chinese_blow_it_up" is set to 0.
 
 
 ### Prerequisites
