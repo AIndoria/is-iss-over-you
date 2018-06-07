@@ -6,6 +6,8 @@ if (!navigator.geolocation){
 
 var lat=0;
 var lon=0;
+var currentState, currentCountry;
+var ISS_State, ISS_Country;
 var did_the_chinese_blow_it_up=0;//Get the wikipedia 'The International Space Station *IS*' string and check for is/was. 
 var distance=0;
 
@@ -26,6 +28,7 @@ function getISSLocation(){
     let ISSData=JSON.parse(request.responseText);
     console.log(ISSData);
     compareLocation(ISSData);
+    getCurrentReadableLocation();
     displayResults();
   }
   request.send();
@@ -75,11 +78,29 @@ function displayResults(){
   }
 }
 
+function getCurrentReadableLocation(){
+  console.log("Getting current location...")
+  let currentCityRequest=new XMLHttpRequest();
+  currentCityRequest.open("GET","http://api.geonames.org/findNearbyJSON?lat="+lat+"&lng="+lon+"&username=isissaboveme");
+  currentCityRequest.onload=function getRequest(){
+    let currentLocation=JSON.parse(currentCityRequest.responseText);
+    currentState=currentLocation.geonames[0].adminName1;
+    currentCountry=currentLocation.geonames[0].countryName;
+    console.log(currentState,currentCountry);
+  }
+  currentCityRequest.send();
+
+}
+
+
 //TODO
+/*
 function saveCookieLocation(){
-    
+    document.cookie="latitude="+lat+"; longitude="+lon;
 }
 
-function getCookieLocation(){
+function getCookieLocation(){ //call this before getting location, if doesn't exist, call getCurrentLocation
 
 }
+
+*/
