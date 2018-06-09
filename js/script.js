@@ -1,4 +1,9 @@
-//TODO: Implement weather check
+/*
+TODO
+  Implement weather check
+  Implement cookies
+  Adjust for ocean-name instead of just "an ocean."
+*/
 
 if (!navigator.geolocation){
     alert("Unsupported browser. Please use a newer browser. We recommend Firefox.");
@@ -7,9 +12,9 @@ if (!navigator.geolocation){
 var lat=0, iss_lat=0;
 var lon=0, iss_lon=0;
 var currentState, currentCountry, ISS_Location;
-var did_the_chinese_blow_it_up=0;//Get the wikipedia 'The International Space Station *IS*' string and check for is/was. 
+var did_the_chinese_blow_it_up=0; //Get the wikipedia 'The International Space Station *IS*' string and check for is/was. 
 var distance=0;
-// var intervalID = window.setInterval(getISSLocation, 5000); //Refresh every few seconds for updated location
+var intervalID = window.setInterval(getISSLocation, 60000); //Refresh every minute for updated location
 function getCurrentLocation(callback){
     navigator.geolocation.getCurrentPosition(function (position){
         lat=position.coords.latitude;
@@ -43,6 +48,7 @@ function compareLocation(iss_location){
   iss_lon=iss_location["iss_position"].longitude;
   let radius = 6372.8; // km
   console.log(iss_lat,iss_lon);
+  console.log(lat,lon);
 
   function CalcHaversineDistance(origin_lat, dest_lat, origin_lon, dest_lon, radius) {
     let radianLong1 = ToRadians(origin_lon);
@@ -99,7 +105,6 @@ function getISSReadableLocation(){
   let currentISSRequest=new XMLHttpRequest();
   currentISSRequest.open("GET","http://api.geonames.org/findNearbyJSON?lat="+iss_lat+"&lng="+iss_lon+"&username=isissaboveme");
   currentISSRequest.onload=function getRequest(){
-    
     let ISSLocationData=JSON.parse(currentISSRequest.responseText);
     displayISSReadableLocation(ISSLocationData);
   }
@@ -107,20 +112,26 @@ function getISSReadableLocation(){
 }
 
 function displayISSReadableLocation(ISSLocationData){
-  ISS_Location=ISSLocationData.geonames[0].name;
+  if(ISSLocationData.geonames[0]!==undefined){
+    if(ISSLocationData.geonames[0].countryName!==undefined){
+      ISS_Location=ISSLocationData.geonames[0].countryName;
+    }
+    else if(ISSLocationData.geonames[0].name !== undefined){
+      ISS_Location=ISSLocationData.geonames[0].name;
+    }
+    else{
+      ISS_Location="an Ocean";
+    }
+  }
+  else{
+    ISS_Location="an Ocean";
+  }
   console.log("ISS IS IN: "+ISS_Location);
-  let doc_iss_location=document.getElementById("iss-loc");
-  ISS_Location ? doc_iss_location.innerHTML+=" "+ISS_Location : doc_iss_location.innerHTML+=" Unknown." ;
+  document.getElementById("iss-loc").innerHTML+=" "+ISS_Location;
+  let iss_direction="";
+  if(iss_lat>lat) iss_direction+="North";
+  else iss_direction+="South";
+  if(iss_lon>lon) iss_direction+="East";
+  else iss_direction+="West";
+  document.getElementById("answer-direction").innerHTML=""+iss_direction;
 }
-
-//TODO
-/*
-function saveCookieLocation(){
-    document.cookie="latitude="+lat+"; longitude="+lon;
-}
-
-function getCookieLocation(){ //call this before getting location, if doesn't exist, call getCurrentLocation
-
-}
-
-*/
