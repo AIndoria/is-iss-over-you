@@ -4,13 +4,12 @@ if (!navigator.geolocation){
     alert("Unsupported browser. Please use a newer browser. We recommend Firefox.");
 }
 
-var lat=0;
-var lon=0;
-var currentState, currentCountry;
-var ISS_State, ISS_Country;
+var lat=0, iss_lat=0;
+var lon=0, iss_lon=0;
+var currentState, currentCountry, ISS_Location;
 var did_the_chinese_blow_it_up=0;//Get the wikipedia 'The International Space Station *IS*' string and check for is/was. 
 var distance=0;
-
+// var intervalID = window.setInterval(getISSLocation, 5000); //Refresh every few seconds for updated location
 function getCurrentLocation(callback){
     navigator.geolocation.getCurrentPosition(function (position){
         lat=position.coords.latitude;
@@ -29,6 +28,7 @@ function getISSLocation(){
     console.log(ISSData);
     compareLocation(ISSData);
     getCurrentReadableLocation();
+    getISSReadableLocation();
     displayResults();
   }
   request.send();
@@ -39,9 +39,10 @@ getCurrentLocation(getISSLocation);
 
 function compareLocation(iss_location){
   console.log("Running Comparison...");
-  let iss_lat=iss_location["iss_position"].latitude;
-  let iss_lon=iss_location["iss_position"].longitude;
+  iss_lat=iss_location["iss_position"].latitude;
+  iss_lon=iss_location["iss_position"].longitude;
   let radius = 6372.8; // km
+  console.log(iss_lat,iss_lon);
 
   function CalcHaversineDistance(origin_lat, dest_lat, origin_lon, dest_lon, radius) {
     let radianLong1 = ToRadians(origin_lon);
@@ -78,20 +79,39 @@ function displayResults(){
   }
 }
 
+
 function getCurrentReadableLocation(){
-  console.log("Getting current location...")
+  console.log("Getting current location...");
   let currentCityRequest=new XMLHttpRequest();
   currentCityRequest.open("GET","http://api.geonames.org/findNearbyJSON?lat="+lat+"&lng="+lon+"&username=isissaboveme");
   currentCityRequest.onload=function getRequest(){
-    let currentLocation=JSON.parse(currentCityRequest.responseText);
-    currentState=currentLocation.geonames[0].adminName1;
-    currentCountry=currentLocation.geonames[0].countryName;
-    console.log(currentState,currentCountry);
+    let currentLocationData=JSON.parse(currentCityRequest.responseText);
+    currentState=currentLocationData.geonames[0].adminName1;
+    currentCountry=currentLocationData.geonames[0].countryName;
+    console.log("YOU LIVE IN: "+currentState,currentCountry);
   }
   currentCityRequest.send();
 
 }
 
+function getISSReadableLocation(){
+  console.log("Getting current ISS Location...");
+  let currentISSRequest=new XMLHttpRequest();
+  currentISSRequest.open("GET","http://api.geonames.org/findNearbyJSON?lat="+iss_lat+"&lng="+iss_lon+"&username=isissaboveme");
+  currentISSRequest.onload=function getRequest(){
+    
+    let ISSLocationData=JSON.parse(currentISSRequest.responseText);
+    displayISSReadableLocation(ISSLocationData);
+  }
+  currentISSRequest.send();
+}
+
+function displayISSReadableLocation(ISSLocationData){
+  ISS_Location=ISSLocationData.geonames[0].name;
+  console.log("ISS IS IN: "+ISS_Location);
+  let doc_iss_location=document.getElementById("iss-loc");
+  ISS_Location ? doc_iss_location.innerHTML+=" "+ISS_Location : doc_iss_location.innerHTML+=" Unknown." ;
+}
 
 //TODO
 /*
