@@ -14,7 +14,7 @@ var lon=0, iss_lon=0;
 var currentState, currentCountry, ISS_Location;
 var did_the_chinese_blow_it_up=0; //Get the wikipedia 'The International Space Station *IS*' string and check for is/was. 
 var distance=0;
-var intervalID = window.setInterval(getISSLocation, 60000); //Refresh every minute for updated location
+//var intervalID = window.setInterval(getISSLocation, 60000); //Refresh every minute for updated location
 function getCurrentLocation(callback){
     navigator.geolocation.getCurrentPosition(function (position){
         lat=position.coords.latitude;
@@ -73,15 +73,18 @@ function compareLocation(iss_location){
 function displayResults(){
   console.log("distance is "+distance);
   if(distance!=0 && distance<1360){
-    document.getElementById("answer-primary").innerHTML="Yes";
+    document.getElementById("answer-primary").innerHTML="YES";
+    document.getElementById("answer-primary").style.fontSize="12em";
   }
   else if(distance!=0 && distance>1360 && distance<2230){
-    document.getElementById("answer-primary").innerHTML="Maybe";
+    document.getElementById("answer-primary").innerHTML="MAYBE";
     document.getElementById("answer-explanation").innerHTML="If you can see it, you'll find it towards the horizon, very low in the sky. Most likely you won't see it because of mountains or other obstructions in the way."
+    document.getElementById("answer-primary").style.fontSize="9em";
   }
   else{
-    document.getElementById("answer-primary").innerHTML="No";
+    document.getElementById("answer-primary").innerHTML="NO";
     document.getElementById("answer-explanation").innerHTML="The ISS is too far away from you. It is currently "+Math.round(distance)+" kilometers away. It needs to be at least 2300km (ideally ~1360km) for it to visible";
+    
   }
 }
 
@@ -133,5 +136,5 @@ function displayISSReadableLocation(ISSLocationData){
   else iss_direction+="South";
   if(iss_lon>lon) iss_direction+="East";
   else iss_direction+="West";
-  document.getElementById("answer-direction").innerHTML=""+iss_direction;
+  document.getElementById("answer-direction-dynamic").innerHTML+=" "+iss_direction;
 }
