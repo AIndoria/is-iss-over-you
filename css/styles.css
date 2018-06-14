@@ -1,0 +1,91 @@
+/*Non-Responsive-Desktop*/
+
+body, html{
+  margin:0;
+  color:gainsboro;
+  height:100vh;
+}
+canvas{
+  background:rgb(7, 0, 22);
+  position: absolute;
+  top:0;
+  left:0;
+}
+.root{
+  color:white;
+  z-index:1;
+  position:relative;
+  display:grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows:repeat(6, 1fr);
+  grid-template-areas: 
+  ". . . . . ."
+  ". . . . . ."
+  ". . . . . ."
+  "answer answer loc loc dir dir"
+  "answer answer loc loc dir dir"
+  "answer answer info info info info";
+  height:100vh;
+}
+.answer-primary{
+  margin:auto;
+  grid-area: answer;
+  font-size: 15em;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.answer-direction{
+  grid-area:dir;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.answer-direction-static{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2em;
+  font-family: "Maven Pro", sans-serif;
+}
+.answer-direction-dynamic{
+  flex:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:5em;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.answer-explanation{
+  grid-area:info;
+  font-size:2em;
+  font-family: "Maven Pro", sans-serif;
+}
+
+
+.answer-loc{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-area:loc;
+  font-family: "Maven Pro", sans-serif;
+}
+.answer-loc-static{
+  display:flex;
+  flex:1;
+  align-items:center;
+  justify-content:center;
+  font-size:2em;
+  font-family: "Maven Pro", sans-serif;
+}
+.answer-loc-dynamic{
+  font-family: "Josefin Sans", sans-serif;
+  font-size:5em;
+  display:flex;
+  flex:3;
+  align-items:center;
+  justify-content:center;
+}
