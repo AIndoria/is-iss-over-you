@@ -3,45 +3,53 @@ var ctx=canvas.getContext("2d");
 canvas.height=window.innerHeight;
 canvas.width=window.innerWidth;
 
-class Star{
-  constructor(){
-    this.x=Math.random()*canvas.width;
-    this.y=Math.random()*canvas.height;
-    this.r=Math.random()*2+0.5;
-    this.color={
+var starField=[];
+
+function Star(x,y,radius){
+  this.x=x;
+  this.y=y;
+  this.r=radius;
+  this.color={
       r:Math.random()*255,
       g:Math.random()*255,
       b:Math.random()*255
     };
+  this.draw=function(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
+    ctx.fillStyle='rgb('+this.color.r+","+this.color.g+","+this.color.b+")";
+    ctx.fill();
+  }
+  this.move=function(){
+    this.x+=Math.random()*(2-1)-1;
+    this.y+=Math.random()*(2-1)-1;
+    this.draw();
   }
 }
 
-
-function drawStars(){
-  let star=new Star();
-  ctx.beginPath();
-  ctx.arc(star.x, star.y,star.r,0,Math.PI*2);
-  ctx.fillStyle='rgb('+star.color.r+","+star.color.g+","+star.color.b+")";
-  ctx.fill();
+for(let i=0;i<(Math.random()*(50-13)+13);i++){
+  starField.push(new Star(Math.random()*canvas.width,Math.random()*canvas.height,Math.random()*2));
+  console.log(starField[i]);
 }
 
-function display(){
-  for(let i=0;i<Math.random()*(60-20+1)+20;i++){
-    drawStars();
-  }
+function animate(){
+  requestAnimationFrame(animate);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  starField.forEach(star=>{
+    star.move();
+  });
 }
-display();
-
-function moveStars(){
-  this.x+=Math.floor(Math.random()*(5-(-5)+1)-5);
-  this.y+=Math.floor(Math.random()*(5-(-5)+1)-5);
-  console.log("Stars moved");
-  //setTimeout(moveStars, 500);
-}
-//moveStars();
+animate();
 
 function redrawCanvas(){
   canvas.height=window.innerHeight;
   canvas.width=window.innerWidth;
-  display();
+  /* EXPERIMENTAL - DRAW STARS AGAIN AFTER RESIZE;
+  starField=[];
+  for(let i=0;i<13;i++){
+    starField.push(new Star(Math.random()*canvas.width,Math.random()*canvas.height,5));
+    console.log(starField[i]);
+  }
+  */
+  animate();
 }
