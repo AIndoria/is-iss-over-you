@@ -1,3 +1,9 @@
+/*
+TODO:
+Maybe make
+
+*/
+
 var canvas=document.getElementById("bg");
 var ctx=canvas.getContext("2d");
 canvas.height=window.innerHeight;
@@ -21,16 +27,16 @@ function Star(x,y,radius){
     ctx.fill();
   }
   this.move=function(){
-    this.x+=Math.random()*(2-1)-1;
-    this.y+=Math.random()*(2-1)-1;
+    this.x+=Math.random()*(0.3-(-0.3))-0.3;
+    this.y+=Math.random()*(0.3-(-0.3))-0.3;
     this.draw();
   }
 }
 
-for(let i=0;i<(Math.random()*(50-13)+13);i++){
+for(let i=0;i<(Math.random()*(100 - 65) + 65);i++){
   starField.push(new Star(Math.random()*canvas.width,Math.random()*canvas.height,Math.random()*2));
-  console.log(starField[i]);
 }
+console.log(starField.length);
 
 function animate(){
   requestAnimationFrame(animate);
@@ -44,6 +50,9 @@ animate();
 function redrawCanvas(){
   canvas.height=window.innerHeight;
   canvas.width=window.innerWidth;
+  starField.splice(0,1);
+  starField.push(new Star(Math.random()*canvas.width,Math.random()*canvas.height,Math.random()*2));
+
   /* EXPERIMENTAL - DRAW STARS AGAIN AFTER RESIZE;
   starField=[];
   for(let i=0;i<13;i++){
@@ -51,5 +60,4 @@ function redrawCanvas(){
     console.log(starField[i]);
   }
   */
-  animate();
 }
