@@ -27,7 +27,7 @@ function getCurrentLocation(callback){
 function getISSLocation(){
   console.log("Fetching ISS location...");
   let request=new XMLHttpRequest();
-  request.open("GET","http://api.open-notify.org/iss-now.json");
+  request.open("GET","https://cors-anywhere.herokuapp.com/http://api.open-notify.org/iss-now.json");
   request.onload=function getRequest(){
     let ISSData=JSON.parse(request.responseText);
     console.log(ISSData);
@@ -92,7 +92,7 @@ function displayResults(){
 function getCurrentReadableLocation(){
   console.log("Getting current location...");
   let currentCityRequest=new XMLHttpRequest();
-  currentCityRequest.open("GET","http://api.geonames.org/findNearbyJSON?lat="+lat+"&lng="+lon+"&username=isissaboveme");
+  currentCityRequest.open("GET","https://cors-anywhere.herokuapp.com/http://api.geonames.org/findNearbyJSON?lat="+lat+"&lng="+lon+"&username=isissaboveme");
   currentCityRequest.onload=function getRequest(){
     let currentLocationData=JSON.parse(currentCityRequest.responseText);
     currentState=currentLocationData.geonames[0].adminName1;
@@ -106,7 +106,7 @@ function getCurrentReadableLocation(){
 function getISSReadableLocation(){
   console.log("Getting current ISS Location...");
   let currentISSRequest=new XMLHttpRequest();
-  currentISSRequest.open("GET","http://api.geonames.org/findNearbyJSON?lat="+iss_lat+"&lng="+iss_lon+"&username=isissaboveme");
+  currentISSRequest.open("GET","https://cors-anywhere.herokuapp.com/http://api.geonames.org/findNearbyJSON?lat="+iss_lat+"&lng="+iss_lon+"&username=isissaboveme");
   currentISSRequest.onload=function getRequest(){
     let ISSLocationData=JSON.parse(currentISSRequest.responseText);
     displayISSReadableLocation(ISSLocationData);
