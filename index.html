@@ -7,22 +7,23 @@
     <meta name="description" content="Check if the International Space Station is visible from your location."/>
     <meta name="author" content="Abhishek Indoria"/>
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Maven+Pro" rel="stylesheet"> 
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" media="screen and (min-width:1201px)" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:1200px)" href="css/responsive.css">
   </head>
 
   <body onresize="redrawCanvas()">
     <canvas id="bg"></canvas>
     <div class="root" id="root">
       <div class="answer-primary" id="answer-primary"></div>
+      <div class="answer-loc">
+        <div class="answer-loc-static">The ISS is currently over</div>
+        <div class="answer-loc-dynamic" id="iss-loc"></div>
+      </div>
       <div class="answer-direction" id="answer-direction">
         <div class="answer-direction-static">To Your</div>
         <div class="answer-direction-dynamic" id="answer-direction-dynamic"></div>
       </div>
       <div class="answer-explanation" id="answer-explanation"></div>
-      <div class="answer-loc">
-        <div class="answer-loc-static">The ISS is currently over</div>
-        <div class="answer-loc-dynamic" id="iss-loc"></div>
-      </div>
     </div>
     <script src="js/script.js"></script>
     <script src="js/canvas.js"></script>
