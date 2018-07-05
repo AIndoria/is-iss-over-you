@@ -45,7 +45,6 @@ canvas{
 }
 .answer-loc-static{
   font-size:2em;
-  
 }
 .answer-loc-dynamic{
   font-size:3em;
@@ -62,7 +61,6 @@ canvas{
   font-size:2em;
 }
 .answer-direction-dynamic{
-  margin:auto;
   font-size:3em;
   font-family: "Josefin Sans", sans-serif;
 }
